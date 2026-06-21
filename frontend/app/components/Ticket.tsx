@@ -82,24 +82,52 @@ export default function Ticket({ticketId, employeeId, stageCode, startDate, stag
     };
 
     const handleSaveCredentials = async () => {
-    try {
-        const res = await fetch(`http://localhost:8080/api/it/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                employee: employeeId.toString(), 
-                email: credData.email,
-                password: credData.password
-            })
-        });
+    if(credData.email != "" && credData.password != ""){
+        try {
+            const res = await fetch(`http://localhost:8080/api/it/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    employee: employeeId.toString(), 
+                    email: credData.email,
+                    password: credData.password
+                })
+            });
 
-        if (res.ok) {
-            setIsCredModalOpen(false);
-            setAreCredentialsSet(true);
+            if (res.ok) {
+                setIsCredModalOpen(false);
+                setAreCredentialsSet(true);
+            }
+        } catch (error) {
+            console.error("Error saving credentials:", error);
         }
-    } catch (error) {
-        console.error("Error saving credentials:", error);
+    } else {
+        displayError("All fields must not be empty!");
     }
+};
+const displayError = (mesaj) => {
+    // Display an error toast
+  const div = document.createElement('div');
+
+  div.className = `
+    basis-1/3 fixed bottom-5 right-5 z=[9999] px-6 py-4 rounded-lg shadow-lg 
+    bg-rose-600 text-white font-bold cursor-pointer transition-all duration-300
+  `;
+  
+  div.innerText = mesaj;
+  div.onclick = () => {
+    div.classList.add('opacity-0');
+    setTimeout(() => div.remove(), 300);
+  };
+
+  document.body.appendChild(div);
+
+  setTimeout(() => {
+    if (document.body.contains(div)) {
+      div.classList.add('opacity-0');
+      setTimeout(() => div.remove(), 300);
+    }
+  }, 4000);
 };
     const displayDate = lastModified ? new Date(lastModified).toLocaleDateString('ro-RO') : 'N/A';
 
@@ -248,7 +276,8 @@ export default function Ticket({ticketId, employeeId, stageCode, startDate, stag
                 <h3 className="text-lg font-bold mb-4">Set Credentials</h3>
                 <div className="flex flex-col gap-3">
                     <input 
-                        type="email" 
+                        type="email"
+                        required 
                         placeholder="@rinftech.com" 
                         className="border p-2 rounded"
                         onChange={e => setCredData({...credData, email: e.target.value})}
