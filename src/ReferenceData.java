@@ -7,11 +7,11 @@ public class ReferenceData {
     
     // Explanation of stage codes
     static{
-        STAGES.put(1, "NEW_TICKET");
-        STAGES.put(2, "NEEDS_REWORK");
-        STAGES.put(3, "READY_FOR_REVIEW");
-        STAGES.put(4, "MANAGER_APPROVED");
-        STAGES.put(5, "FINANCIAL_APPROVED");
+        STAGES.put(1, "NEW TICKET");
+        STAGES.put(2, "NEEDS REWORK");
+        STAGES.put(3, "READY FOR REVIEW");
+        STAGES.put(4, "MANAGER APPROVED");
+        STAGES.put(5, "FINANCIAL APPROVED");
         STAGES.put(6,"COMPLETED");
 
     }

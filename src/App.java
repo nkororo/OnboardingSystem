@@ -125,6 +125,8 @@ public class App {
                     sql += " WHERE t.stage = ?";
                 }
 
+                sql += "  ORDER BY t.updated_at DESC";
+                
                 String[] connectionData =  getConnectionData();
                 try (Connection conn = DriverManager.getConnection(connectionData[0], connectionData[1], connectionData[2]);
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
